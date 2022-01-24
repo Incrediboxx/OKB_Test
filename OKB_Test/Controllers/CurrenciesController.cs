@@ -51,26 +51,5 @@ namespace OKB_Test.Controllers
 
             return value.First();
         }
-
-        /// <summary>
-        /// Получение значения валюты по ее идентификатору
-        /// </summary>
-        /// <param name="Id">Идентификатор валюты</param>
-        /// <returns></returns>
-        [HttpGet("ValueByID")]
-        public async Task<ActionResult<decimal>> GetCurrencyValueByID(string Id)
-        {
-            if (string.IsNullOrEmpty(Id))
-                return BadRequest("Empty currency ID");
-
-            var value = from currency in _context.Сurrencies
-                        where currency.Id == Id
-                        select currency.Value;
-
-            if (value.Count() == 0)
-                return BadRequest("There is no currency with this id");
-
-            return value.First();
-        }
     }
 }
