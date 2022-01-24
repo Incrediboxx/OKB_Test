@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using OKB_Test.Model;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using OKB_Test.Model;
 
 namespace OKB_Test.Controllers
 {
@@ -50,7 +49,7 @@ namespace OKB_Test.Controllers
             if (value.Count() == 0)
                 return BadRequest("There is no currency with this code");
 
-            return value.First(); 
+            return value.First();
         }
 
         /// <summary>
