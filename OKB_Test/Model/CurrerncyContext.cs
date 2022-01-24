@@ -19,16 +19,29 @@ namespace OKB_Test.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var currencyJson = new WebClient().DownloadString(CurrencyUrl);
-            var valutes = JObject.Parse(currencyJson)["Valute"].Children();
-            List<Currency> currencies = new List<Currency>();
-
-            foreach (var item in valutes)
+            var webClient = new WebClient();
+            webClient.Proxy = new WebProxy()
             {
-                currencies.Add(item.First.ToObject<Currency>());
-            }
+                Credentials = CredentialCache.DefaultCredentials
+            };
 
-            modelBuilder.Entity<Currency>().HasData(currencies);
+            try
+            {
+                var currencyJson = webClient.DownloadString(CurrencyUrl);
+                var valutes = JObject.Parse(currencyJson)["Valute"].Children();
+                List<Currency> currencies = new List<Currency>();
+
+                foreach (var item in valutes)
+                {
+                    currencies.Add(item.First.ToObject<Currency>());
+                }
+
+                modelBuilder.Entity<Currency>().HasData(currencies);
+            }
+            catch (System.Exception e)
+            {
+                System.Console.WriteLine(e); 
+            }
         }
     }
 }
